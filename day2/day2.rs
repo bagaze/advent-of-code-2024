@@ -13,12 +13,24 @@ fn main() {
         }
     }
 
-    let mut res1 = 0;
+    let mut res1: i16 = 0;
     for v in data.iter() {
         res1 += p1_process_vector(&v);
     }
+    println!("res - part1: {}", res1);
 
-    println!("res1: {}", res1);
+    let mut res2: i16 = 0;
+    for v in data.iter() {
+        let mut slices: Vec<Vec<i16>> = vec![];
+        for idx in 0..v.len() {
+            let mut v_clone = v.clone();
+            v_clone.remove(idx);
+            slices.push(v_clone);
+        }
+
+        res2 += slices.iter().map(|slice| p1_process_vector(&slice)).any(|res| res == 1) as i16;
+    }
+    println!("res - part2: {}", res2);
 }
 
 fn lower_than(x: i16, y: i16) -> bool {
